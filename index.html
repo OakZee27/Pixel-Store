@@ -6,12 +6,12 @@
     <title>Pixel Store</title>
     <style>
         :root {
-            --bg-color: #0f1115;
-            --card-bg: #161920;
-            --text-color: #f1f5f9;
-            --accent-color: #ffb703;
+            --bg-color: #faf4ef;
+            --card-bg: #232425;
+            --text-color: #ffffff;
+            --accent-color: #ff6c03;
             --price-color: #00b4d8;
-            --border-color: #242936;
+            --border-color: #46db46;
         }
 
         body { 
@@ -31,7 +31,7 @@
         }
 
         .subtitle {
-            color: #94a3b8;
+            color: #000000;
             margin-top: 0;
             margin-bottom: 30px;
             font-size: 1rem;
@@ -94,7 +94,7 @@
         .card:hover {
             transform: translateY(-5px);
             box-shadow: 0 8px 25px rgba(0,0,0,0.3);
-            border-color: #3b4252;
+            border-color: #46db46;
         }
 
         .card-header {
@@ -112,7 +112,30 @@
             color: var(--accent-color);
             font-weight: 600;
         }
+        .search-container {
+            max-width: 100%;
+            margin: 15px auto 25px auto;
+            padding: 0 15px;
+        }
 
+        #search-input {
+            width: 30%;
+            padding: 12px 20px;
+            font-size: 15px;
+            border-radius: 25px;
+            border: 1px solid #46db46;
+            background-color: #181818;
+            color: #fff;
+            outline: none;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+        }
+
+        #search-input:focus {
+            border-color: #ffd278;
+            box-shadow: 0 0 10px rgba(255, 210, 120, 0.3);
+        }
+        
         h3 {
             margin: 0 0 10px 0;
             color: #ffffff;
@@ -192,6 +215,14 @@
         <button class="tab-btn active" onclick="filterCategory('all')">الكل</button>
     </div>
 
+    <div class="search-container">
+        <input
+             type="text"
+             id="search-input"
+             placeholder="ابحث عن منتج.."
+             oninput="searchProducts()">
+    </div>
+    
     <div class="grid" id="products-container">جار التحميل...</div>
 
     <script>
@@ -276,6 +307,17 @@
                 const filtered = allProducts.filter(p => p.cat.trim() === category.trim());
                 displayProducts(filtered);
             }
+        }
+        function searchProducts() {
+            const query = document.getElementById('search-input').value.toLowerCase().trim();
+            const filtered = allProducts.filter(item => {
+                const titleMatch = item.title ? item.title.toLowerCase().includes(query) : false;
+                const descMatch = item.desc ? item.desc.toLowerCase().includes(query) : false;
+                const catMatch = item.cat ? item.cat.toLowerCase().includes(query) : false;
+
+                return titleMatch || descMatch || catMatch;
+            });
+            displayProducts(filtered);
         }
     </script>
 </body>
